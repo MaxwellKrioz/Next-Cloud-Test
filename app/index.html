@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if IE 9]>
+<html class="lt-ie10" lang="en" >
+<![endif]-->
+<html lang="en" class="no-js" ng-app="examApp">
+<head>
+	<meta charset="utf-8">
+	<title>APP Examen Next-Cloud</title>
+	<script src="js/angular.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/ngStorage.js"></script>
+	
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/foundation.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	
+	
+</head>
+<style>
+.red{
+    color: mediumorchid;
+}
+
+
+.t_1{
+	
+	border-bottom: 1px solid lightblue;
+}
+
+.t_2{
+	border-bottom: 1px solid lightgreen;
+}
+</style>
+<body ng-controller="testCtrl">
+<div class="row">
+	<div class="large-10 columns">
+      <h1>Next-Cloud Test: Product Browser</h1>
+    </div>
+	<div>
+		<a href ng-click="goCart= !goCart">Toggle Cart</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-10 columns">
+	   <input type="text" placeholder="Input your search parameters" ng-model="searchTerm.description">
+	</div>
+	<div class ="medium-2 columns">
+	  <a href="" ng-click="sorting()">Sort</a>
+	</div>
+</div>
+<div class="row" ng-Show="!goCart">	
+		<div  class="medium-10 columns" ng-repeat="product in products | filter:searchTerm | filter:available | orderObjectBy:'price':reverse | limitTo:50">
+			<div class="medium-6 columns t_1">
+				<div><h2>{{product.description}}</h2></div>
+				<div>Brand: {{product.brand.name}}</div>
+				<div style="padding:10px;">
+				<img src="http://{{product.image}}"  width="128">
+				</div>
+				<div><h3>Price: ${{product.price}} MXN</h3></div>
+			</div>
+			<div class="medium-4 columns t_2" style="padding-top:145px;">
+				<label>Quantity</label>
+				<input type="text" placeholder="0" ng-model="product_quant[product.sku]">
+				<button class="small radius button" ng-click="add2cart(product.sku)">Add to Cart!</button>
+			</div>
+			
+		</div>		
+</div>
+
+<div class="row ng-hide" ng-Show="goCart">
+	<div class="medium-6 columns" ng-Show="cart.length <= 0 " > You Dont have any product in your cart.</div>
+	<div class="medium-10 columns" ng-Show="cart.length > 0 " ><h1 class="red">Grand Total: $ {{getTotal()}} MXN</h1>
+	<button class="small success radius button">PAY!</button>
+	</div>
+	<br/>
+	<div  class="medium-11 columns" ng-repeat="product in cart">
+			<div class="medium-6 columns t_1">
+				<div><h2>{{product.description}}</h2></div>
+				<div style="padding:10px;">
+				<img src="http://{{product.image}}"  width="100">
+				</div>
+				<div>#: {{product.quantity}}</div>
+				<div><h3>Price: ${{product.price*product.quantity}} MXN</h3></div>
+			</div>
+			<div class="medium-6 columns t_2">
+				<div style="padding-top:145px;">
+				<button class="small alert radius button" ng-click="removeCart($index)">Delete</button>
+				<div>
+			</div>
+	</div>
+	
+</div>
+
+
+<!-- include before </body> tag -->
+<script src="js/vendor/jquery.js"></script>
+<script src="js/foundation.min.js"></script>
+<script>
+	$(document).foundation();
+</script>
+</body>
+</html>
