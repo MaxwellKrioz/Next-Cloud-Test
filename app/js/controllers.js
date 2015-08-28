@@ -17,6 +17,7 @@ examApp.controller('testCtrl', function($scope, $http,$localStorage) {
 	
 	
 	$scope.goCart=false;
+	$scope.Show_mod=false;
 	$scope.product_quant = {};
 	$scope.quantity=0;
 	
@@ -70,6 +71,17 @@ examApp.controller('testCtrl', function($scope, $http,$localStorage) {
     return total;
 	}
 	
+	
+	
+	$scope.addOne = function(index){
+		$scope.cart[index].quantity++;
+	}
+	
+	$scope.subOne = function(index){
+		if($scope.cart[index].quantity > 1){
+			$scope.cart[index].quantity--;
+		}
+	}
 	
 	$scope.$watch(function() {
          return angular.toJson($localStorage);
